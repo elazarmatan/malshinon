@@ -13,6 +13,8 @@ namespace malshinon
             ConsoleManager v = new ConsoleManager();
             //PersonDal f = new PersonDal();
             //f.GetPersonByName("david","coen");
+
         }
+        
     }
 }
