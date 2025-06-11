@@ -93,13 +93,15 @@ public class PersonDal
         {
             _con.Open();
             Console.WriteLine("CONECTION SUCESS\n");
-            string query = "INSERT INTO persons (first_name,last_name,secret_code)" +
-                " VALUES(@first_name,@last_name,@secret_code)";
+            string query = "INSERT INTO persons (first_name,last_name,secret_code,type)" +
+                " VALUES(@first_name,@last_name,@secret_code,@type)";
             var cmd = comand(query);
             cmd.Parameters.AddWithValue("@first_name",pers.first_name);
             cmd.Parameters.AddWithValue("@last_name",pers.last_name);
             cmd.Parameters.AddWithValue("@secret_code",pers.secret_code);
-            
+            cmd.Parameters.AddWithValue("@type", pers.type);
+
+
 
             cmd.ExecuteNonQuery();
             Console.WriteLine("INSERT SUCESS!!!");
@@ -138,17 +140,17 @@ public class PersonDal
         }
     }
 
-    public void updateType(int id, string columName, type value)
-    {
-        this._con.Open();
-        string query = $"UPDATE persons SET {columName} = @value WHERE id = @id";
+    //public void updateType(int id, string columName, type value)
+    //{
+    //    this._con.Open();
+    //    string query = $"UPDATE persons SET {columName} = @value WHERE id = @id";
 
-        var cmd = comand(query);
-        cmd.Parameters.AddWithValue("@value", value);
-        cmd.Parameters.AddWithValue("@id", id);
-        cmd.ExecuteNonQuery();
-        _con.Close();
-    }
+    //    var cmd = comand(query);
+    //    cmd.Parameters.AddWithValue("@value", value);
+    //    cmd.Parameters.AddWithValue("@id", id);
+    //    cmd.ExecuteNonQuery();
+    //    _con.Close();
+    //}
     public void UpdateReportCount(int value,int id) 
     {
         try
@@ -281,6 +283,42 @@ public class PersonDal
             }
         }
         return name;
+    }
+
+    public bool getType(string type, string firstName,string lastName)
+    {
+        bool res = false;
+        string typ = "";
+        try
+        {
+
+            _con.Open();
+            Console.WriteLine("CONECTION SUCESS\n");
+            string query = "SELECT type FROM persons WHERE first_name=@first_name AND last_name= @last_name";
+            var cmd = comand(query);
+            cmd.Parameters.AddWithValue("@first_name", firstName);
+            cmd.Parameters.AddWithValue("@last_name", lastName);
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                typ = reader.GetString("type");
+
+            }
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("EROR: " + e.Message);
+        }
+        finally
+        {
+            _con.Close();
+        }
+        if (typ == type)
+        {
+            res = true;
+        }
+        return res;
     }
     public void GetReporterStats() 
     {
