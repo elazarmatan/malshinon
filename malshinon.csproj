@@ -98,6 +98,7 @@
     <Compile Include="consoleManager.cs" />
     <Compile Include="fullName.cs" />
     <Compile Include="malshinDal.cs" />
+    <Compile Include="menu.cs" />
     <Compile Include="persons.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
