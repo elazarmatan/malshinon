@@ -137,12 +137,24 @@ public class PersonDal
             _con.Close();
         }
     }
+
+    public void updateType(int id, string columName, type value)
+    {
+        this._con.Open();
+        string query = $"UPDATE persons SET {columName} = @value WHERE id = @id";
+
+        var cmd = comand(query);
+        cmd.Parameters.AddWithValue("@value", value);
+        cmd.Parameters.AddWithValue("@id", id);
+        cmd.ExecuteNonQuery();
+        _con.Close();
+    }
     public void UpdateReportCount(int value,int id) 
     {
         try
         {
             _con.Open();
-            string query = $"UPDATE agents SET num_reports = @value WHERE id = @id";
+            string query = $"UPDATE persons SET num_reports = @value WHERE id = @id";
 
             var cmd = comand(query);
             cmd.Parameters.AddWithValue("@value", value);
@@ -164,7 +176,7 @@ public class PersonDal
         try
         {
             _con.Open();
-            string query = $"UPDATE agents SET num_mentions = @value WHERE id = @id";
+            string query = $"UPDATE persons SET num_mentions = @value WHERE id = @id";
 
             var cmd = comand(query);
             cmd.Parameters.AddWithValue("@value", value);
@@ -174,7 +186,7 @@ public class PersonDal
         }
         catch (Exception e)
         {
-            Console.WriteLine("EROR: " + e);
+            Console.WriteLine("EROR: " + e.Message);
         }
         finally
         {
@@ -182,6 +194,35 @@ public class PersonDal
         }
     }
 
+    public int getIdByName(string firstName, string lastName)
+    {
+        int id = 0;
+        try
+        {
+           
+            _con.Open();
+            Console.WriteLine("CONECTION SUCESS\n");
+            string query = "SELECT id FROM persons WHERE first_name=@first_name AND last_name= @last_name";
+            var cmd = comand(query);
+            cmd.Parameters.AddWithValue("@first_name", firstName);
+            cmd.Parameters.AddWithValue("@last_name", lastName);
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                id = reader.GetInt32("id");
+            }
+            
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine("EROR: " + e.Message);
+        }
+        finally
+        {
+            _con.Close();
+        }
+        return id;
+    }
     public string createSecretCode(string name)
     {
         string secret = "";
@@ -193,10 +234,36 @@ public class PersonDal
         return secret;
     }
 
+    public bool SecretCodeExists(string code)
+    {
+        bool exists = false;
+
+        try
+        {
+            _con.Open();
+            string query = "SELECT COUNT(*) FROM persons WHERE secret_code = @code";
+            var cmd = new MySqlCommand(query, _con);
+            cmd.Parameters.AddWithValue("@code", code);
+
+            var result = Convert.ToInt32(cmd.ExecuteScalar());
+            exists = result > 0;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[ERROR] Failed to check secret code: {ex.Message}");
+        }
+        finally
+        {
+            _con.Close();
+        }
+
+        return exists;
+    }
+
     public fullName NameExtraction(string text)
     {
         List<string> texts = new List<string>(text.Split(' '));
-        fullName name = null;
+        fullName name = new fullName();
         string firstName = "";
         string lastName = "";
         for(int i = 0;i < texts.Count; i++)
