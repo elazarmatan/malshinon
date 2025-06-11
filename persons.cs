@@ -30,7 +30,13 @@ public class persons
         this.num_mentions = num_mentions;
     }
 
-    
+    public persons(string first_name, string last_name, string secret_code, type type)
+    {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.secret_code = secret_code;
+        this.type = type;
+    }
 
     public persons(string first_name, string last_name, string secret_code)
     {
