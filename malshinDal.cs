@@ -50,9 +50,9 @@ public class PersonDal
                 result = true;
             }
         }
-        catch
+        catch (Exception e)
         {
-            
+            Console.WriteLine("EROR: " + e.Message);
         }
         finally
         {
@@ -77,9 +77,9 @@ public class PersonDal
                 result = true;
             }
         }
-        catch 
+        catch (Exception e)
         {
-            
+            Console.WriteLine("EROR: " + e.Message);
         }
         finally
         {
@@ -92,7 +92,6 @@ public class PersonDal
         try
         {
             _con.Open();
-            Console.WriteLine("CONECTION SUCESS\n");
             string query = "INSERT INTO persons (first_name,last_name,secret_code,type)" +
                 " VALUES(@first_name,@last_name,@secret_code,@type)";
             var cmd = comand(query);
@@ -104,87 +103,7 @@ public class PersonDal
 
 
             cmd.ExecuteNonQuery();
-            Console.WriteLine("INSERT SUCESS!!!");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("EROR: " + e);
-        }
-        finally
-        {
-            _con.Close();
-        }
-    }
-    public void InsertIntelReport(Reports rep) 
-    {
-        try
-        {
-            _con.Open();
-            Console.WriteLine("CONECTION SUCESS\n");
-            string query = "INSERT INTO reports(reporter_id,target_id,text) VALUES (@reporter_id,@target_id,@text)";
-            var cmd = comand(query);
-            cmd.Parameters.AddWithValue("@reporter_id",rep.reportsId);
-            cmd.Parameters.AddWithValue("@target_id",rep.targetId);
-            cmd.Parameters.AddWithValue("@text",rep.text);
-
-            cmd.ExecuteNonQuery();
-            Console.WriteLine("INSERT SUCESS!!!");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("EROR: " + e);
-        }
-        finally
-        {
-            _con.Close();
-        }
-    }
-
-    //public void updateType(int id, string columName, type value)
-    //{
-    //    this._con.Open();
-    //    string query = $"UPDATE persons SET {columName} = @value WHERE id = @id";
-
-    //    var cmd = comand(query);
-    //    cmd.Parameters.AddWithValue("@value", value);
-    //    cmd.Parameters.AddWithValue("@id", id);
-    //    cmd.ExecuteNonQuery();
-    //    _con.Close();
-    //}
-    public void UpdateReportCount(int value,int id) 
-    {
-        try
-        {
-            _con.Open();
-            string query = $"UPDATE persons SET num_reports = @value WHERE id = @id";
-
-            var cmd = comand(query);
-            cmd.Parameters.AddWithValue("@value", value);
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.ExecuteNonQuery();
-            Console.WriteLine("UPDATE SUCESS!!!");
-        }
-        catch(Exception e)
-        {
-            Console.WriteLine("EROR: " + e);
-        }
-        finally
-        {
-            _con.Close();
-        }
-    }
-    public void UpdateMentionCount(int id,int value) 
-    {
-        try
-        {
-            _con.Open();
-            string query = $"UPDATE persons SET num_mentions = @value WHERE id = @id";
-
-            var cmd = comand(query);
-            cmd.Parameters.AddWithValue("@value", value);
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.ExecuteNonQuery();
-            Console.WriteLine("UPDATE SUCESS!!!");
+            Console.WriteLine("INSERT USER SUCESS!!!");
         }
         catch (Exception e)
         {
@@ -195,7 +114,29 @@ public class PersonDal
             _con.Close();
         }
     }
+   
+    public void updateType(int id, string value)
+    {
+        try
+        {
+            this._con.Open();
+            string query = $"UPDATE persons SET type = @value WHERE id = @id";
 
+            var cmd = comand(query);
+            cmd.Parameters.AddWithValue("@value", value);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("EROR: " + e.Message);
+        }
+        finally
+        {
+            _con.Close();
+        }
+    }
+   
     public int getIdByName(string firstName, string lastName)
     {
         int id = 0;
@@ -203,7 +144,6 @@ public class PersonDal
         {
            
             _con.Open();
-            Console.WriteLine("CONECTION SUCESS\n");
             string query = "SELECT id FROM persons WHERE first_name=@first_name AND last_name= @last_name";
             var cmd = comand(query);
             cmd.Parameters.AddWithValue("@first_name", firstName);
@@ -216,6 +156,34 @@ public class PersonDal
             
         }
         catch(Exception e)
+        {
+            Console.WriteLine("EROR: " + e.Message);
+        }
+        finally
+        {
+            _con.Close();
+        }
+        return id;
+    }
+
+    public int getIdBySecretCode(string secretCode)
+    {
+        int id = 0;
+        try
+        {
+
+            _con.Open();
+            string query = "SELECT id FROM persons WHERE secret_code=@secret_code";
+            var cmd = comand(query);
+            cmd.Parameters.AddWithValue("@secret_code", secretCode);
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                id = reader.GetInt32("id");
+            }
+
+        }
+        catch (Exception e)
         {
             Console.WriteLine("EROR: " + e.Message);
         }
@@ -285,7 +253,7 @@ public class PersonDal
         return name;
     }
 
-    public bool getType(string type, string firstName,string lastName)
+    public bool getType(string type,int id)
     {
         bool res = false;
         string typ = "";
@@ -293,11 +261,9 @@ public class PersonDal
         {
 
             _con.Open();
-            Console.WriteLine("CONECTION SUCESS\n");
-            string query = "SELECT type FROM persons WHERE first_name=@first_name AND last_name= @last_name";
+            string query = "SELECT type FROM persons WHERE id = @id";
             var cmd = comand(query);
-            cmd.Parameters.AddWithValue("@first_name", firstName);
-            cmd.Parameters.AddWithValue("@last_name", lastName);
+            cmd.Parameters.AddWithValue("@id", id);
             var reader = cmd.ExecuteReader();
             if (reader.Read())
             {
