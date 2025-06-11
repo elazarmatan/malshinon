@@ -30,10 +30,7 @@ public class persons
         this.num_mentions = num_mentions;
     }
 
-    public persons()
-    {
-
-    }
+    
 
     public persons(string first_name, string last_name, string secret_code)
     {

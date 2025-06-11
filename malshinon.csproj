@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="consoleManager.cs" />
     <Compile Include="malshinDal.cs" />
     <Compile Include="persons.cs" />
     <Compile Include="Program.cs" />

@@ -10,6 +10,9 @@ namespace malshinon
     {
         static void Main(string[] args)
         {
+            ConsoleManager v = new ConsoleManager();
+            //PersonDal f = new PersonDal();
+            //f.GetPersonByName("david","coen");
         }
     }
 }

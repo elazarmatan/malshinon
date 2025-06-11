@@ -3,9 +3,9 @@
 public class Reports
 {
     int id { get; set; }
-    string text { get; set; }
-    int reportsId { get; set; }
-    int targetId { get; set; }
+   public string text { get; set; }
+   public int reportsId { get; set; }
+    public int targetId { get; set; }
     DateTime time { get; }
 
     public Reports(int id, string text, int reportsId, int targetId,DateTime time)
