@@ -1,13 +1,13 @@
 ﻿
 using System;
 
-public enum type
-{
-    reporter,
-    target,
-    both,
-    potential_agent
-}
+//public enum type
+//{
+//    reporter,
+//    target,
+//    both,
+//    potential_agent
+//}
 public class persons
 {
     public int id { get; set; }
@@ -15,11 +15,11 @@ public class persons
     public string first_name { get; set; }
     public string last_name { get; set; }
     public string secret_code { get; set; }
-    public type type { get; set; } = type.reporter;
+    public string type { get; set; }
     public int   num_reports { get; set; }
     public int    num_mentions { get; set; }
 
-    public persons(int id ,string first_name,string last_name,string secret_code,type type,int num_reports,int num_mentions)
+    public persons(int id ,string first_name,string last_name,string secret_code,string type,int num_reports,int num_mentions)
     {
         this.id = id;
         this.first_name = first_name;
@@ -30,7 +30,7 @@ public class persons
         this.num_mentions = num_mentions;
     }
 
-    public persons(string first_name, string last_name, string secret_code, type type)
+    public persons(string first_name, string last_name, string secret_code, string type)
     {
         this.first_name = first_name;
         this.last_name = last_name;
