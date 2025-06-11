@@ -5,6 +5,7 @@ static class Menu
     public static void enterByName()
     {
         PersonDal dal = new PersonDal();
+        
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.Write("Enter first name: ");
@@ -14,6 +15,11 @@ static class Menu
 
         if (dal.GetPersonByName(firstName, lastName))
         {
+            int id = dal.getIdByName(firstName, lastName);
+            if (dal.getType("target", id))
+            {
+                dal.updateType(id,"both");
+            }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Access granted.");
         }
@@ -24,16 +30,8 @@ static class Menu
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Creating new user...");
             string scr = dal.createSecretCode(firstName);
-            string typer = "";
-            if (dal.getType("reporter", firstName, lastName))
-            {
-                typer = "reporter";
-            }
-            else
-            {
-                typer = "both";
-            }
-            persons person = new persons(firstName, lastName, scr,typer);
+            
+            persons person = new persons(firstName, lastName, scr,"reporter");
             dal.InsertNewPerson(person);
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"Generated secret code: {scr}");
@@ -53,6 +51,11 @@ static class Menu
 
         if (dal.GetPersonBySecretCode(secretCode))
         {
+            int id = dal.getIdBySecretCode(secretCode);
+            if (dal.getType("target", id))
+            {
+                dal.updateType(id, "both");
+            }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Access granted.");
         }
@@ -66,16 +69,7 @@ static class Menu
             string firstName = Console.ReadLine();
             Console.Write("Last name: ");
             string lastName = Console.ReadLine();
-            string typer = "";
-            if (dal.getType("reporter", firstName, lastName))
-            {
-                typer = "reporter";
-            }
-            else
-            {
-                typer = "both";
-            }
-            persons pers = new persons(firstName, lastName, secretCode,typer);
+            persons pers = new persons(firstName, lastName, secretCode,"reporter");
             dal.InsertNewPerson(pers);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("New user created successfully.");
@@ -89,7 +83,7 @@ static class Menu
     public static void createReport()
     {
         PersonDal dal = new PersonDal();
-
+        ReportDal rdal = new ReportDal();
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.Write("Enter your first name: ");
         string firstName = Console.ReadLine();
@@ -114,15 +108,23 @@ static class Menu
                 Console.WriteLine($"New target created with code: {scr}");
             }
         }
+        else
+        {
+            int id = dal.getIdByName(firstName, lastName);
+            if (dal.getType("reporter", id))
+            {
+                dal.updateType(id, "both");
+            }
+        }
 
-        int idtarg = dal.getIdByName(first, last);
+            int idtarg = dal.getIdByName(first, last);
         int idrep = dal.getIdByName(firstName, lastName);
 
         Reports rep = new Reports(text, idrep, idtarg);
-        dal.InsertIntelReport(rep);
+        rdal.InsertIntelReport(rep);
 
-        dal.UpdateMentionCount(idtarg, 1);
-        dal.UpdateReportCount(1, idrep);
+        rdal.UpdateMentionCount(idtarg);
+        rdal.UpdateReportCount(idrep);
 
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Report submitted successfully.");
