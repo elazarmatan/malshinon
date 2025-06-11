@@ -2,9 +2,8 @@
 {
     public string firstName;
     public string lastName;
-    public fullName(string firstName, string lastName)
+    public fullName()
     {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        
     }
 }
