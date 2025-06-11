@@ -193,10 +193,26 @@ public class PersonDal
         return secret;
     }
 
-    public string NameExtraction(string text)
+    public fullName NameExtraction(string text)
     {
-        string name = "";
-
+        List<string> texts = new List<string>(text.Split(' '));
+        fullName name = null;
+        string firstName = "";
+        string lastName = "";
+        for(int i = 0;i < texts.Count; i++)
+        {
+            foreach(char c in texts[i])
+            {
+                if (char.IsUpper(c))
+                {
+                    firstName = texts[i];
+                    name.firstName = firstName;
+                    lastName = texts[i + 1];
+                    name.lastName = lastName;
+                    break;
+                }
+            }
+        }
         return name;
     }
     public void GetReporterStats() 
