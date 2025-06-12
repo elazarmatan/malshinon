@@ -103,7 +103,6 @@ public class PersonDal
 
 
             cmd.ExecuteNonQuery();
-            //Console.WriteLine("INSERT USER SUCESS!!!");
         }
         catch (Exception e)
         {
