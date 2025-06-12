@@ -1,34 +1,47 @@
-# Malshinon
+# malshinon
 
-Malshinon is an open-source project designed to provide fast and convenient translation between languages, with a focus on Hebrew and additional languages. The project aims to be simple to use, easily extensible, and suitable for developers, students, and anyone in need of quick text translation.
+**malshinon** is a simple report management system that allows users to submit reports, manage users, and perform various administrative actions. The system is written in C# as a Console Application and uses a SQL database.
+
+---
 
 ## Main Features
 
-- Fast translation between languages (primarily Hebrew and English)
-- Simple and user-friendly interface
-- Easily extendable to support different translation engines
-- Command-line support and integration into scripts
+- **Report Management:** Add, view, update, and delete reports.
+- **User Management:** Create and manage users and administrators, including permissions.
+- **Database Integration:** Store and retrieve information from a SQL database.
+- **Logging:** Record actions, errors, and events for monitoring and debugging.
+- **User Interface:** User-friendly console interface for easy operation.
+
+---
 
 ## Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/elazarmatan/malshinon.git
-   ```
-2. (Optional) Install any required dependencies as specified in `requirements.txt` or other relevant setup files.
+1. **Restore the database:**  
+   Run the provided SQL script (`malshinon.sql`) on your database server.
 
-## Usage
+2. **Update configuration file:**  
+   Edit the `App.config` file to set your database connection details.
 
-For a basic translation, run:
-```bash
-python malshinon.py --from he --to en --text "שלום עולם"
-```
-Or integrate it into your existing scripts.
+3. **Run the system:**  
+   Open the solution (`malshinon.sln`) in Visual Studio, build, and run the application.
+
+---
+
+## General Usage
+
+1. Start the application.
+2. Follow the menu prompts in the console.
+3. You can add, edit, and delete reports, manage users, and view system logs.
+
+---
 
 ## Contributing
 
-Contributions, suggestions, and improvements are welcome! Please open an issue, submit a pull request, or contact us directly.
+All contributions are welcome!  
+You can open issues, suggest improvements, or submit pull requests.
 
-## License
+---
 
-This project is licensed under the MIT License.
+## More Information
+
+For more details, questions, or support, please refer to the project's GitHub page.
