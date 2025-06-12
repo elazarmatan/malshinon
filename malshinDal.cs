@@ -103,7 +103,7 @@ public class PersonDal
 
 
             cmd.ExecuteNonQuery();
-            Console.WriteLine("INSERT USER SUCESS!!!");
+            //Console.WriteLine("INSERT USER SUCESS!!!");
         }
         catch (Exception e)
         {
@@ -218,9 +218,9 @@ public class PersonDal
             var result = Convert.ToInt32(cmd.ExecuteScalar());
             exists = result > 0;
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Console.WriteLine($"[ERROR] Failed to check secret code: {ex.Message}");
+            Console.WriteLine("ERROR :" + e.Message);
         }
         finally
         {
@@ -286,6 +286,8 @@ public class PersonDal
         }
         return res;
     }
+
+    
     public void GetReporterStats() 
     {
 

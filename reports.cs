@@ -23,4 +23,7 @@ public class Reports
         this.reportsId = reportsId;
         this.targetId = targetId;
     }
+
+   
+
 }
