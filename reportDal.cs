@@ -26,7 +26,7 @@ public class ReportDal
         try
         {
             _con.Open();
-            string query = $"UPDATE persons SET num_reports +1 WHERE id = @id";
+            string query = $"UPDATE persons SET num_reports = num_reports + 1 WHERE id = @id";
 
             var cmd = comand(query);
 
@@ -47,7 +47,7 @@ public class ReportDal
         try
         {
             _con.Open();
-            string query = $"UPDATE persons SET num_mentions +1 WHERE id = @id";
+            string query = $"UPDATE persons SET num_mentions = num_mentions +1 WHERE id = @id";
 
             var cmd = comand(query);
             cmd.Parameters.AddWithValue("@id", id);
@@ -85,6 +85,35 @@ public class ReportDal
             _con.Close();
         }
     }
+    public int getNumReports(string firstName, string lastName)
+    {
+        int nr = 0;
+        try
+        {
+
+            _con.Open();
+            string query = "SELECT num_reports FROM persons WHERE first_name=@first_name AND last_name= @last_name";
+            var cmd = comand(query);
+            cmd.Parameters.AddWithValue("@first_name", firstName);
+            cmd.Parameters.AddWithValue("@last_name", lastName);
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                nr = reader.GetInt32("num_reports");
+            }
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("EROR: " + e.Message);
+        }
+        finally
+        {
+            _con.Close();
+        }
+        return nr;
+    }
+
 
 
 }
