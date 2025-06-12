@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 static class Menu
 {
@@ -6,6 +7,8 @@ static class Menu
     {
         PersonDal dal = new PersonDal();
         LogDal ldal = new LogDal();
+        ReportDal rdal = new ReportDal();
+
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.Write("Enter first name: ");
@@ -20,6 +23,13 @@ static class Menu
             {
                 dal.updateType(id,"both");
                 ldal.createLog($"the type of {firstName} {lastName} change to both");
+            }
+            else
+            {
+                if (rdal.getNumReports(firstName, lastName) >= 10)
+                {
+                    dal.updateType(id, "potential_agent");
+                }
             }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Access granted.");
@@ -48,6 +58,7 @@ static class Menu
     {
         PersonDal dal = new PersonDal();
         LogDal ldal = new LogDal();
+        ReportDal rdal = new ReportDal();
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.Write("Enter secret code: ");
@@ -62,6 +73,13 @@ static class Menu
                 //ldal.createLog($"the type of {} change to both");
 
             }
+            //else
+            //{
+            //    if (rdal.getNumReports(firstName, lastName) >= 10)
+            //    {
+            //        dal.updateType(id, "potential_agent");
+            //    }
+            //}
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Access granted.");
         }
@@ -125,7 +143,7 @@ static class Menu
             if (dal.getType("reporter", id))
             {
                 dal.updateType(id, "both");
-                ldal.createLog($"the type of {} change to both");
+                ldal.createLog($"the type of {firstName} {lastName} change to both");
 
             }
         }
@@ -143,5 +161,88 @@ static class Menu
         Console.WriteLine("Report submitted successfully.");
 
         Console.ResetColor();
+    }
+
+    public static  void showdetails()
+    {
+        Console.WriteLine("enter your first name");
+        string firstName = Console.ReadLine();
+        Console.WriteLine("enter your last name");
+        string lastName = Console.ReadLine();
+
+    }
+
+    public static bool entryManager(string password)
+    {
+        bool entry = false;
+        if (password == "12345678")
+        {
+            entry = true;
+        }
+        return entry;
+    }
+
+    public static void menuManager()
+    {
+        LogDal ldal = new LogDal();
+        ManagerDal dal = new ManagerDal();
+        bool exit = true;
+        while(exit){
+            Console.WriteLine("====================\n" +
+                              "    MENU MANAGER\n" +
+                              "====================\n" +
+                              "1. list logs"+
+                              "2. list reporters"+
+                              "3. list targets"+
+                              "4. list both"+
+                              "5. list potential agents"+
+                              "6. list reports" +
+                              "7. exit"
+                );
+            string select = Console.ReadLine();
+            switch (select)
+            {
+                case "1":
+                    List<Log> logs = ldal.getAllLogs();
+                    foreach (Log l in logs)
+                    {
+                        l.ToString();
+                    }
+                    break;
+                case "2":
+                    List<persons> persr = dal.GetPerson("reporter");
+                    foreach (persons p in persr)
+                    {
+                        p.PrintPersonDetails();
+                    }
+                    break;
+                case "3":
+                    List<persons> perst = dal.GetPerson("target");
+                    foreach (persons p in perst)
+                    {
+                        p.PrintPersonDetails();
+                    }
+                    break;
+                case "4":
+                    List<persons> persb = dal.GetPerson("both");
+                    foreach (persons p in persb)
+                    {
+                        p.PrintPersonDetails();
+                    }
+                    break;
+                case "5":
+                    List<persons> persp = dal.GetPerson("potential_agent");
+                    foreach (persons p in persp)
+                    {
+                        p.PrintPersonDetails();
+                    }
+                    break;
+                case "6":
+                    break;
+                case "7":
+                    exit = false;
+                    break;
+            }
+        }
     }
 }
