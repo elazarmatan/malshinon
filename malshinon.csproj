@@ -97,6 +97,8 @@
   <ItemGroup>
     <Compile Include="consoleManager.cs" />
     <Compile Include="fullName.cs" />
+    <Compile Include="log.cs" />
+    <Compile Include="logdal.cs" />
     <Compile Include="malshinDal.cs" />
     <Compile Include="menu.cs" />
     <Compile Include="persons.cs" />
