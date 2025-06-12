@@ -5,7 +5,7 @@ static class Menu
     public static void enterByName()
     {
         PersonDal dal = new PersonDal();
-        
+        LogDal ldal = new LogDal();
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.Write("Enter first name: ");
@@ -19,6 +19,7 @@ static class Menu
             if (dal.getType("target", id))
             {
                 dal.updateType(id,"both");
+                ldal.createLog($"the type of {firstName} {lastName} change to both");
             }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Access granted.");
@@ -29,10 +30,12 @@ static class Menu
             Console.WriteLine("User not found.");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Creating new user...");
-            string scr = dal.createSecretCode(firstName);
+            string fl = firstName + lastName;
+            string scr = dal.createSecretCode(fl);
             
             persons person = new persons(firstName, lastName, scr,"reporter");
             dal.InsertNewPerson(person);
+            ldal.createLog($"create new person named {firstName} {lastName}");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"Generated secret code: {scr}");
         }
@@ -44,6 +47,7 @@ static class Menu
     public static void enterBySecretCode()
     {
         PersonDal dal = new PersonDal();
+        LogDal ldal = new LogDal();
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.Write("Enter secret code: ");
@@ -55,6 +59,8 @@ static class Menu
             if (dal.getType("target", id))
             {
                 dal.updateType(id, "both");
+                //ldal.createLog($"the type of {} change to both");
+
             }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Access granted.");
@@ -71,6 +77,8 @@ static class Menu
             string lastName = Console.ReadLine();
             persons pers = new persons(firstName, lastName, secretCode,"reporter");
             dal.InsertNewPerson(pers);
+            ldal.createLog($"create new person named {firstName} {lastName}");
+
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("New user created successfully.");
         }
@@ -84,6 +92,8 @@ static class Menu
     {
         PersonDal dal = new PersonDal();
         ReportDal rdal = new ReportDal();
+        LogDal ldal = new LogDal();
+
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.Write("Enter your first name: ");
         string firstName = Console.ReadLine();
@@ -99,13 +109,14 @@ static class Menu
 
         if (!dal.GetPersonByName(first, last))
         {
-            string scr = dal.createSecretCode(last);
+            string fl = first + last;
+            string scr = dal.createSecretCode(fl);
             if (!dal.SecretCodeExists(scr))
             {
                 persons person = new persons(first, last, scr,"target");
                 dal.InsertNewPerson(person);
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine($"New target created with code: {scr}");
+                ldal.createLog($"New target created named {first} {last}");
             }
         }
         else
@@ -114,6 +125,8 @@ static class Menu
             if (dal.getType("reporter", id))
             {
                 dal.updateType(id, "both");
+                ldal.createLog($"the type of {} change to both");
+
             }
         }
 
@@ -122,7 +135,7 @@ static class Menu
 
         Reports rep = new Reports(text, idrep, idtarg);
         rdal.InsertIntelReport(rep);
-
+        ldal.createLog($"new report {firstName} {lastName} The informant to {first} {last}");
         rdal.UpdateMentionCount(idtarg);
         rdal.UpdateReportCount(idrep);
 
