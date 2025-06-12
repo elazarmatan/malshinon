@@ -19,7 +19,7 @@ public class persons
     public int   num_reports { get; set; }
     public int    num_mentions { get; set; }
 
-    public persons(int id ,string first_name,string last_name,string secret_code,string type,int num_reports,int num_mentions)
+    public persons(string first_name,string last_name,string secret_code,string type,int num_reports,int num_mentions)
     {
         this.id = id;
         this.first_name = first_name;
@@ -47,7 +47,6 @@ public class persons
     public void PrintPersonDetails()
     {
         Console.WriteLine("========= Person Details =========");
-        Console.WriteLine($"ID:              {id}");
         Console.WriteLine($"First Name:      {first_name}");
         Console.WriteLine($"Last Name:       {last_name}");
         Console.WriteLine($"Secret Code:     {secret_code}");
