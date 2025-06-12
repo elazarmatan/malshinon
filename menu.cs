@@ -187,18 +187,25 @@ static class Menu
         LogDal ldal = new LogDal();
         ManagerDal dal = new ManagerDal();
         bool exit = true;
-        while(exit){
-            Console.WriteLine("====================\n" +
-                              "    MENU MANAGER\n" +
-                              "====================\n" +
-                              "1. list logs"+
-                              "2. list reporters"+
-                              "3. list targets"+
-                              "4. list both"+
-                              "5. list potential agents"+
-                              "6. list reports" +
-                              "7. exit"
-                );
+
+        while (exit)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("====================");
+            Console.WriteLine("    MENU MANAGER");
+            Console.WriteLine("====================");
+            Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("1. list logs");
+            Console.WriteLine("2. list reporters");
+            Console.WriteLine("3. list targets");
+            Console.WriteLine("4. list both");
+            Console.WriteLine("5. list potential agents");
+            Console.WriteLine("6. list reports");
+            Console.WriteLine("7. exit");
+            Console.ResetColor();
+
             string select = Console.ReadLine();
             switch (select)
             {
@@ -206,35 +213,45 @@ static class Menu
                     List<Log> logs = ldal.getAllLogs();
                     foreach (Log l in logs)
                     {
+                        Console.ForegroundColor = ConsoleColor.Gray;
                         l.ToString();
+                        Console.ResetColor();
                     }
                     break;
                 case "2":
                     List<persons> persr = dal.GetPerson("reporter");
                     foreach (persons p in persr)
                     {
+                        Console.ForegroundColor = ConsoleColor.Green;
                         p.PrintPersonDetails();
+                        Console.ResetColor();
                     }
                     break;
                 case "3":
                     List<persons> perst = dal.GetPerson("target");
                     foreach (persons p in perst)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         p.PrintPersonDetails();
+                        Console.ResetColor();
                     }
                     break;
                 case "4":
                     List<persons> persb = dal.GetPerson("both");
                     foreach (persons p in persb)
                     {
+                        Console.ForegroundColor = ConsoleColor.Blue;
                         p.PrintPersonDetails();
+                        Console.ResetColor();
                     }
                     break;
                 case "5":
                     List<persons> persp = dal.GetPerson("potential_agent");
                     foreach (persons p in persp)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
                         p.PrintPersonDetails();
+                        Console.ResetColor();
                     }
                     break;
                 case "6":
@@ -242,7 +259,13 @@ static class Menu
                 case "7":
                     exit = false;
                     break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid option. Please choose a valid menu number.");
+                    Console.ResetColor();
+                    break;
             }
         }
     }
+
 }
