@@ -115,5 +115,18 @@ public class ReportDal
     }
 
 
+    //public void Printreport()
+    //{
+    //    PersonDal dal = new PersonDal();
+
+
+    //    Console.WriteLine("========= Person Details =========");
+    //    Console.WriteLine($"Reporter:        {first_name}");
+    //    Console.WriteLine($"Target:          {last_name}");
+    //    Console.WriteLine($"Text:            {}");
+    //    Console.WriteLine($"Type:            {type}");
+    //    Console.WriteLine($"Time to report:  {num_reports}");
+    //    Console.WriteLine("==================================");
+    //}
 
 }
