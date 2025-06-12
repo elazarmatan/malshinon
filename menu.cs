@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 static class Menu
 {
+    //הפונקצייה מאפשרת כניסה למערכת באמצעות השם
     public static void enterByName()
     {
         PersonDal dal = new PersonDal();
@@ -29,6 +30,7 @@ static class Menu
                 if (rdal.getNumReports(firstName, lastName) >= 10)
                 {
                     dal.updateType(id, "potential_agent");
+                    ldal.createLog($"the type of {firstName} {lastName} change to potential agent");
                 }
             }
             Console.ForegroundColor = ConsoleColor.Green;
@@ -53,7 +55,7 @@ static class Menu
         Console.ResetColor();
     }
 
-
+    //הפונקצייה מאפשרת כניסה למערכת באמצעות קוד סודי
     public static void enterBySecretCode()
     {
         PersonDal dal = new PersonDal();
@@ -70,16 +72,9 @@ static class Menu
             if (dal.getType("target", id))
             {
                 dal.updateType(id, "both");
-                //ldal.createLog($"the type of {} change to both");
 
             }
-            //else
-            //{
-            //    if (rdal.getNumReports(firstName, lastName) >= 10)
-            //    {
-            //        dal.updateType(id, "potential_agent");
-            //    }
-            //}
+          
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Access granted.");
         }
@@ -105,7 +100,7 @@ static class Menu
     }
 
 
-
+    //הפונקצייה מאפשרת יצירת דיווח
     public static void createReport()
     {
         PersonDal dal = new PersonDal();
@@ -163,15 +158,8 @@ static class Menu
         Console.ResetColor();
     }
 
-    public static  void showdetails()
-    {
-        Console.WriteLine("enter your first name");
-        string firstName = Console.ReadLine();
-        Console.WriteLine("enter your last name");
-        string lastName = Console.ReadLine();
-
-    }
-
+   
+    //פונקציה שבודקת סיסמה ומאפשרת כניסה למנהל בלבד
     public static bool entryManager(string password)
     {
         bool entry = false;
@@ -181,7 +169,7 @@ static class Menu
         }
         return entry;
     }
-
+    //פונקצייה שמציגה את תפריט המנהל
     public static void menuManager()
     {
         LogDal ldal = new LogDal();
