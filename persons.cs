@@ -1,13 +1,7 @@
 ﻿
 using System;
 
-//public enum type
-//{
-//    reporter,
-//    target,
-//    both,
-//    potential_agent
-//}
+
 public class persons
 {
     public int id { get; set; }
