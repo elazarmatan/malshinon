@@ -17,6 +17,7 @@ public class ConsoleManager
             Console.WriteLine("How would you like to log in?");
             Console.WriteLine("1. Full name");
             Console.WriteLine("2. Secret code");
+            Console.WriteLine("3. i am a manager");
 
             Console.ResetColor();
             Console.Write("Enter your choice (1 or 2): ");
@@ -30,6 +31,15 @@ public class ConsoleManager
                     break;
                 case "2":
                     Menu.enterBySecretCode();
+                    break;
+                case "3":
+                    Console.WriteLine("enter password");
+                    string password = Console.ReadLine();
+                    if (Menu.entryManager(password))
+                    {
+                        Menu.menuManager();
+                        v = false;
+                    }
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -47,7 +57,8 @@ public class ConsoleManager
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("\n========= MAIN MENU =========");
             Console.WriteLine("1. Create a report");
-            Console.WriteLine("2. Exit");
+            Console.WriteLine("2. show my details");
+            Console.WriteLine("3. Exit");
             Console.ResetColor();
 
             Console.Write("Enter your choice: ");
@@ -60,6 +71,8 @@ public class ConsoleManager
                     Menu.createReport();
                     break;
                 case "2":
+                    break;
+                case "3":
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine("Exiting... Goodbye!");
                     Console.ResetColor();
